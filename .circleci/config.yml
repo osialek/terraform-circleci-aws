@@ -23,9 +23,9 @@ jobs:
             terraform version
             ls
       - persist_to_workspace:
-          root: .
+          root: /usr/local
           paths:
-            - "*"
+            - /bin/terraform
   build_terragrunt_plan:
     machine:
       image: ubuntu-2204:2024.04.4
@@ -50,22 +50,22 @@ jobs:
           name: validate terraform installation
           command: |
             terraform version
-      - run:
-          name: installing terragrunt
-          command: |
-            /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-            (echo; echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"') >> /home/circleci/.bashrc
-            eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
-            brew install terragrunt
-            sudo apt-get install build-essential
-      - run:
-          name: validate terragrunt installation
-          command: terragrunt --version
-      - run:
-            name: terragrunt plan
-            command: |
-              cd environments/dev/network
-              terragrunt plan
+      # - run:
+      #     name: installing terragrunt
+      #     command: |
+      #       /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+      #       (echo; echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"') >> /home/circleci/.bashrc
+      #       eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+      #       brew install terragrunt
+      #       sudo apt-get install build-essential
+      # - run:
+      #     name: validate terragrunt installation
+      #     command: terragrunt --version
+      # - run:
+      #       name: terragrunt plan
+      #       command: |
+      #         cd environments/dev/network
+      #         terragrunt plan
 workflows:
   version: 2
   execute_terraform_validate:
