@@ -1,3 +1,3 @@
 inputs = {
-    environment = "${basename(get_terragrunt_dir())}"
+    environment = "${(get_terragrunt_dir())}/..)"
 }
