@@ -72,6 +72,6 @@ workflows:
   #     - build_terragrunt_plan:
   #         requires:
   #           - build_terraform_validate
-  execute_terragrunt_plan:
+  terragrunt_plan:
     jobs:
       - build_terragrunt_plan
