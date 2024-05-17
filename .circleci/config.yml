@@ -55,6 +55,11 @@ jobs:
       - run:
           name: validate terragrunt installation
           command: terragrunt --version
+      - run:
+            name: terragrunt plan
+            command: |
+              cd environments/dev/network
+              terragrunt plan
 workflows:
   version: 2
   execute_terraform_validate:
