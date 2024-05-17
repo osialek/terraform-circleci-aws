@@ -11,7 +11,17 @@ jobs:
             sudo apt install python3-pip
             sudo pip3 install awsebcli --upgrade
       # - run: cd ./app && npm install && npm run build
-      - run: aws s3 ls
+      - run: 
+          name: installing terraform
+          command: |
+            wget -O- https://apt.releases.hashicorp.com/gpg | sudo gpg --dearmor -o /usr/share/keyrings/hashicorp-archive-keyring.gpg
+            echo "deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/hashicorp.list
+            sudo apt update && sudo apt install terraform
+      - run:
+          name: validate terraform installation
+          command: |
+            terraform version
+            ls
 workflows:
   version: 2
   execute_terraform_validate:
