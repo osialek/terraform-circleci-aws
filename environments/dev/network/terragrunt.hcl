@@ -1,5 +1,5 @@
 terraform {
-    source = "../../../terraform/modules/"
+    source = "../../../terraform/modules/single-az-network/"
 }
 include "root" {
     path = find_in_parent_folders()
@@ -7,7 +7,7 @@ include "root" {
 
 inputs = {
 #     instance_replica_count = 1
-    environment = "DEV"
+    environment = "${get_original_terragrunt_dir()}"
 #     instance_type_zabbix_server="t3.medium"
 #     instance_type_bastion_host="t3.medium" #medium for better desktop performance in remote sessions.
 #     instance_type_workload_with_agent="t3.micro" #micro for lower costs and just demonstration of the ec2 and zabbix agent configured with user-data
