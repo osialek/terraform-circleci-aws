@@ -48,7 +48,7 @@ jobs:
           name: installing terragrunt
           command: |
             /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-            (echo; echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"') >> /root/.bashrc
+            (echo; echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"') >> /home/circleci/.bashrc
             eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
             brew install terragrunt
             sudo apt-get install build-essential
