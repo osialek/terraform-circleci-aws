@@ -1,5 +1,5 @@
 terraform {
-    source = "../terraform/modules/"
+    source = "../../../terraform/modules/"
 }
 include "root" {
     path = find_in_parent_folders()
