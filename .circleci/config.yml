@@ -71,7 +71,10 @@ workflows:
   execute_terraform_validate:
     jobs:
       - build_terraform_validate
-      - build_terragrunt_plan
+      - build_terragrunt_plan:
+          requires:
+            - build_terraform_validate
+
   # execute_terragrunt_plan:
   #   jobs:
   #     - build_terragrunt_plan
