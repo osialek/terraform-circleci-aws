@@ -62,8 +62,6 @@ jobs:
       - run:
             name: terragrunt plan
             command: |
-              # cd environments/dev
-              # yes | terragrunt run-all plan
               cd environments/dev
               set +e
               terragrunt run-all plan > plan_output.log 2>&1
@@ -116,9 +114,17 @@ jobs:
             name: terragrunt deploy
             command: |
               cd environments/dev
-              yes | terragrunt run-all apply
+              set +e
+              terragrunt run-all apply
+              PLAN_EXIT_CODE=$?
+              set -e
+              if [ $PLAN_EXIT_CODE -ne 0 ]; then
+                echo "Terragrunt apply failed"
+                exit $PLAN_EXIT_CODE
+              else
+                echo "Terragrunt apply succeeded"
+              fi                 
               
-
 workflows:
   version: 2
   # execute_terraform_validate:
@@ -130,4 +136,6 @@ workflows:
   terragrunt_plan:
     jobs:
       - build_terragrunt_plan
-      - deploy_terragrunt
+      - deploy_terragrunt:
+          requires:
+            - build_terragrunt_plan
