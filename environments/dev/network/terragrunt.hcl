@@ -18,7 +18,7 @@ include "root" {
 inputs = {
 #     instance_replica_count = 1
   environment = "${basename(dirname(get_terragrunt_dir()))}"
-  public_subnet_condition = false
+  public_subnet_condition = true
 #     instance_type_zabbix_server="t3.medium"
 #     instance_type_bastion_host="t3.medium" #medium for better desktop performance in remote sessions.
 #     instance_type_workload_with_agent="t3.micro" #micro for lower costs and just demonstration of the ec2 and zabbix agent configured with user-data
