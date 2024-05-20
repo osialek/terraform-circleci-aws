@@ -24,7 +24,7 @@ include "root" {
 
 inputs = {
 #     instance_replica_count = 1
-  vpc_private_subnet_ids = [dependency.network.outputs.private_subnet_ids]
+  vpc_private_subnet_ids = dependency.network.outputs.private_subnet_ids
   environment = "${basename(dirname(get_terragrunt_dir()))}"
 #     instance_type_zabbix_server="t3.medium"
 #     instance_type_bastion_host="t3.medium" #medium for better desktop performance in remote sessions.
