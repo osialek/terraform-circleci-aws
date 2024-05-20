@@ -16,14 +16,15 @@ data "aws_availability_zones" "available" {
 resource "aws_vpc" "core_vpc" {
   cidr_block = var.vpc_cidr
   tags = {
-    Name      = "${var.environment}-vpc-${local.region}"
+    Name = "${var.environment}-vpc-${local.region}"
   }
 }
 # Deploy subnets
 resource "aws_subnet" "public_subnet01" {
+  count = var.public_subnet_condition ? 1 : 0
   vpc_id                  = aws_vpc.core_vpc.id
   cidr_block              = var.public_subnet_cidr
-  availability_zone_id = data.aws_availability_zones.available.zone_ids[0]
+  availability_zone_id    = data.aws_availability_zones.available.zone_ids[0]
   map_public_ip_on_launch = true
   tags = {
     Name        = "${aws_vpc.core_vpc.tags.Name}-public-${data.aws_availability_zones.available.zone_ids[0]}"

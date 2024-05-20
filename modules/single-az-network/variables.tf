@@ -169,6 +169,9 @@ variable "public_subnet_cidr" {
   type    = string
   default = "10.0.100.0/24"
 }
+variable "public_subnet_condition" {
+  type = bool
+}
 # variable "zone_ids" {
 #   type    = list(string)
 #   default = ["euc1-az1", "euc1-az2", "euc1-az3"]
