@@ -3,7 +3,7 @@ terraform {
     extra_arguments "common_var" {
         commands  = ["apply","plan","destroy"]
         arguments = [
-            "-var-file=../common.tfvars"
+            "-var-file=${get_parent_terragrunt_dir()}/dev/common.tfvars"
         ]
     }
     # required_var_files = [
