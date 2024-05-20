@@ -7,36 +7,39 @@ data "aws_region" "current" {}
 locals {
   region = data.aws_region.current.name
 }
+# Declare the data source
+data "aws_availability_zones" "available" {
+  state = "available"
+}
+
 # Deploy main VPC
 resource "aws_vpc" "core_vpc" {
   cidr_block = var.vpc_cidr
   tags = {
     Name      = "${var.environment}-vpc-${local.region}"
-    Terraform = "true"
   }
 }
-# # Deploy subnets
-# resource "aws_subnet" "public_subnet01" {
-#   vpc_id                  = aws_vpc.core_vpc.id
-#   cidr_block              = var.public_subnet_cidr
-#   availability_zone_id    = var.zone_ids[0]
-#   map_public_ip_on_launch = true
-#   tags = {
-#     Name        = "${aws_vpc.core_vpc.tags.Name}-public-${var.zone_ids[0]}"
-#     Terraform   = "true"
-#     Environment = "${var.environment}"
-#   }
-# }
-# resource "aws_subnet" "private_subnet01" {
-#   vpc_id               = aws_vpc.core_vpc.id
-#   cidr_block           = var.private_subnet_cidr
-#   availability_zone_id = var.zone_ids[0]
-#   tags = {
-#     Name        = "${aws_vpc.core_vpc.tags.Name}-private-${var.zone_ids[0]}"
-#     Terraform   = "true"
-#     Environment = "${var.environment}"
-#   }
-# }
+# Deploy subnets
+resource "aws_subnet" "public_subnet01" {
+  vpc_id                  = aws_vpc.core_vpc.id
+  cidr_block              = var.public_subnet_cidr
+  availability_zone_id = data.aws_availability_zones.available.zone_ids[0]
+  map_public_ip_on_launch = true
+  tags = {
+    Name        = "${aws_vpc.core_vpc.tags.Name}-public-${data.aws_availability_zones.available.zone_ids[0]}"
+    Environment = "${var.environment}"
+  }
+}
+resource "aws_subnet" "private_subnet01" {
+  vpc_id               = aws_vpc.core_vpc.id
+  cidr_block           = var.private_subnet_cidr
+  availability_zone_id = data.aws_availability_zones.available.zone_ids[0]
+  tags = {
+    Name        = "${aws_vpc.core_vpc.tags.Name}-private-${data.aws_availability_zones.available.zone_ids[0]}"
+    Environment = "${var.environment}"
+  }
+}
+
 # # Deploy Internet Gateway
 # resource "aws_internet_gateway" "core_vpc_igw" {
 #   vpc_id = aws_vpc.core_vpc.id

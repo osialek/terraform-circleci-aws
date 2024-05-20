@@ -62,8 +62,8 @@ jobs:
       - run:
             name: terragrunt plan
             command: |
-              cd environments/dev/network
-              terragrunt plan
+              cd environments/dev/app
+              yes | terragrunt run-all plan
 workflows:
   version: 2
   # execute_terraform_validate:

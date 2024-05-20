@@ -1,5 +1,5 @@
 terraform {
-    source = "../../../modules/single-az-network/"
+    source = "../../../modules/ecs-cluster/"
     extra_arguments "common_var" {
         commands  = ["apply","plan","destroy"]
         arguments = [
@@ -11,12 +11,20 @@ terraform {
     # ]
 
 }
+dependency "network" {
+    config_path = "../network"
+    mock_outputs = {
+        subnet_id = "private_subnet01"
+    }
+}
+
 include "root" {
     path = find_in_parent_folders()
 }
 
 inputs = {
 #     instance_replica_count = 1
+  vpc_private_subnet_ids = [dependency.network.outputs.subnet_id]
   environment = "${basename(dirname(get_terragrunt_dir()))}"
 #     instance_type_zabbix_server="t3.medium"
 #     instance_type_bastion_host="t3.medium" #medium for better desktop performance in remote sessions.
@@ -36,3 +44,4 @@ provider "aws" {
 }
 EOF
 }
+
