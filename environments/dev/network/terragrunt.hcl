@@ -1,11 +1,15 @@
 terraform {
     source = "../../../terraform/modules/single-az-network/"
-    extra_arguments "common_var" {
-        commands  = get_terraform_commands_that_need_vars()
-        arguments = [
-            "-var-file=../common.tfvars"
-        ]
-    }
+    # extra_arguments "common_var" {
+    #     commands  = get_terraform_commands_that_need_vars()
+    #     arguments = [
+    #         "-var-file=../common.tfvars"
+    #     ]
+    # }
+    required_var_files = [
+      "${get_parent_terragrunt_dir()}/common.tfvars"
+    ]
+
 }
 include "root" {
     path = find_in_parent_folders()
