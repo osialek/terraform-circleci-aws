@@ -1,14 +1,18 @@
 terraform {
-  source = "../../../terraform/modules/single-az-network/"
-  extra_arguments "common_var" {
-    commands  = ["apply","plan","destroy"]
-      arguments = [
-        "-var-file=${get_parent_terragrunt_dir()}/../common.tfvars"
-      ]
-  }
+    source = "../../../terraform/modules/single-az-network/"
+    extra_arguments "common_var" {
+        commands  = ["apply","plan","destroy"]
+        arguments = [
+            "-var-file=../../common.tfvars"
+        ]
+    }
+    # required_var_files = [
+    #   "${get_parent_terragrunt_dir()}/common.tfvars"
+    # ]
+
 }
 include "root" {
-  path = find_in_parent_folders()
+    path = find_in_parent_folders()
 }
 
 inputs = {
