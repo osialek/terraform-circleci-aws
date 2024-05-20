@@ -62,8 +62,21 @@ jobs:
       - run:
             name: terragrunt plan
             command: |
+              # cd environments/dev
+              # yes | terragrunt run-all plan
               cd environments/dev
-              yes | terragrunt run-all plan
+              set +e
+              terragrunt run-all plan > plan_output.log 2>&1
+              PLAN_EXIT_CODE=$?
+              set -e
+              if [ $PLAN_EXIT_CODE -ne 0 ]; then
+                echo "Terragrunt plan failed"
+                cat plan_output.log
+                exit $PLAN_EXIT_CODE
+              else
+                echo "Terragrunt plan succeeded"
+                cat plan_output.log
+              fi                     
   deploy_terragrunt:
     machine:
       image: ubuntu-2204:2024.04.4
@@ -100,10 +113,12 @@ jobs:
           name: validate terragrunt installation
           command: terragrunt --version
       - run:
-            name: terragrunt plan
+            name: terragrunt deploy
             command: |
               cd environments/dev
-              yes | terragrunt run-all apply          
+              yes | terragrunt run-all apply
+              
+
 workflows:
   version: 2
   # execute_terraform_validate:
