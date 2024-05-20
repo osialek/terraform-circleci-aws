@@ -69,11 +69,9 @@ jobs:
               set -e
               if [ $PLAN_EXIT_CODE -ne 0 ]; then
                 echo "Terragrunt plan failed"
-                cat plan_output.log
                 exit $PLAN_EXIT_CODE
               else
                 echo "Terragrunt plan succeeded"
-                cat plan_output.log
               fi                     
   deploy_terragrunt:
     machine:
