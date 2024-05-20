@@ -115,12 +115,12 @@ jobs:
             command: |
               cd environments/dev
               set +e
-              terragrunt run-all apply
-              PLAN_EXIT_CODE=$?
+              yes | terragrunt run-all apply
+              APPLY_EXIT_CODE=$?
               set -e
-              if [ $PLAN_EXIT_CODE -ne 0 ]; then
+              if [ $APPLY_EXIT_CODE -ne 0 ]; then
                 echo "Terragrunt apply failed"
-                exit $PLAN_EXIT_CODE
+                exit $APPLY_EXIT_CODE
               else
                 echo "Terragrunt apply succeeded"
               fi                 
